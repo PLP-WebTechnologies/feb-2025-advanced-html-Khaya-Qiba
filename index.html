@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index Page with Registration Form</title>
+</head>
+<body>
+    <!-- Section: Ordered List with Roman Numerals -->
+    <section>
+        <h2>Ordered List</h2>
+        <!-- Using type="I" for uppercase Roman numerals -->
+        <ol type="I">
+            <li>First item</li>
+            <li>Second item</li>
+            <li>Third item</li>
+        </ol>
+    </section>
+
+    <!-- Section: External Image from Pexels -->
+    <section>
+        <h2>Featured Image</h2>
+        <!-- Image sourced from Pexels -->
+        <img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg" alt="Beautiful scenery from Pexels">
+    </section>
+
+    <!-- Section: Table of Contacts -->
+    <section>
+        <h2>Contact List</h2>
+        <table border="1">
+            <caption>Contacts</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>123 Main St, City</td>
+                    <td>+1234567890</td>
+                    <td>john.doe@example.com</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>456 Second St, Town</td>
+                    <td>+0987654321</td>
+                    <td>jane.smith@example.com</td>
+                </tr>
+                <tr>
+                    <td>Michael Brown</td>
+                    <td>789 Third Ave, Village</td>
+                    <td>+1122334455</td>
+                    <td>michael.brown@example.com</td>
+                </tr>
+                <tr>
+                    <td>Lisa Wong</td>
+                    <td>1011 Fourth Blvd, Metropolis</td>
+                    <td>+2233445566</td>
+                    <td>lisa.wong@example.com</td>
+                </tr>
+                <tr>
+                    <td>Chris Johnson</td>
+                    <td>1213 Fifth Lane, Hamlet</td>
+                    <td>+3344556677</td>
+                    <td>chris.johnson@example.com</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section: Registration Form -->
+    <section>
+        <h2>Registration Form</h2>
+        <!-- Form begins -->
+        <form action="/submit-registration" method="post">
+            <!-- Name Field -->
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            
+            <!-- Email Field -->
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+            
+            <!-- Password Field -->
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required minlength="6">
+            </div>
+            
+            <!-- Date Field -->
+            <div>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            
+            <!-- Dropdown: Country Selection -->
+            <div>
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select your country</option>
+                    <!-- Options will be dynamically populated -->
+                </select>
+            </div>
+            
+            <!-- Radio Buttons: Gender Selection -->
+            <fieldset>
+                <legend>Gender:</legend>
+                <div>
+                    <input type="radio" id="male" name="gender" value="male" required>
+                    <label for="male">Male</label>
+                </div>
+                <div>
+                    <input type="radio" id="female" name="gender" value="female" required>
+                    <label for="female">Female</label>
+                </div>
+                <div>
+                    <input type="radio" id="other" name="gender" value="other" required>
+                    <label for="other">Other</label>
+                </div>
+            </fieldset>
+
+            <!-- Checkboxes: Interests -->
+            <fieldset>
+                <legend>Interests:</legend>
+                <div>
+                    <input type="checkbox" id="interest1" name="interests" value="technology">
+                    <label for="interest1">Technology</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="interest2" name="interests" value="sports">
+                    <label for="interest2">Sports</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="interest3" name="interests" value="music">
+                    <label for="interest3">Music</label>
+                </div>
+            </fieldset>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Script to dynamically populate the country dropdown from the REST Countries API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch all countries from the API
+            fetch('https://restcountries.com/v3.1/all')
+                .then(response => response.json())
+                .then(countries => {
+                    // Sort countries alphabetically by their common name
+                    countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                    const countrySelect = document.getElementById('country');
+
+                    // Append each country's name as an option
+                    countries.forEach(country => {
+                        const option = document.createElement('option');
+                        // Use country code or name as value; adjust as needed
+                        option.value = country.cca2 || country.name.common;
+                        option.textContent = country.name.common;
+                        countrySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching countries:', error));
+        });
+    </script>
+</body>
+</html>
